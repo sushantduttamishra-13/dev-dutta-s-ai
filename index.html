@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W AI Bot</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #090b12;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #10131d;
+    border-right: 1px solid #ffffff12;
+    padding: 25px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-family: 'Space Grotesk';
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 35px;
+}
+
+.logo span {
+    color: #a394ff;
+}
+
+.new-chat {
+    padding: 13px;
+    border: 1px solid #a394ff70;
+    border-radius: 12px;
+    background: #a394ff15;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.history-title {
+    color: #777f95;
+    font-size: 11px;
+    margin-top: 35px;
+    letter-spacing: 2px;
+}
+
+.history {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #aeb4c6;
+    overflow-wrap: anywhere;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.topbar {
+    height: 70px;
+    border-bottom: 1px solid #ffffff12;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+}
+
+.status {
+    color: #65d6c4;
+    font-size: 13px;
+}
+
+.clear {
+    background: #ffffff0c;
+    border: 1px solid #ffffff15;
+    color: white;
+    padding: 9px 14px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.content {
+    width: min(850px, 100%);
+    margin: auto;
+    padding: 35px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome {
+    text-align: center;
+}
+
+.badge {
+    display: inline-block;
+    padding: 9px 15px;
+    border-radius: 30px;
+    background: #a394ff15;
+    border: 1px solid #a394ff40;
+    color: #c4baff;
+    font-size: 11px;
+}
+
+h1 {
+    font-family: 'Space Grotesk';
+    font-size: clamp(38px, 7vw, 60px);
+    margin: 25px 0 15px;
+    line-height: 1.1;
+}
+
+.gradient {
+    background: linear-gradient(100deg, #c3b9ff, #65d6c4);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    color: #9299ad;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.suggestions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 35px;
+}
+
+.suggestion {
+    background: #ffffff08;
+    border: 1px solid #ffffff15;
+    color: white;
+    padding: 18px;
+    border-radius: 13px;
+    text-align: left;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.suggestion:hover {
+    border-color: #a394ff;
+    transform: translateY(-3px);
+}
+
+.suggestion b {
+    display: block;
+    margin-bottom: 7px;
+}
+
+.suggestion small {
+    color: #9299ad;
+}
+
+.chat {
+    display: none;
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px 0;
+}
+
+.message {
+    display: flex;
+    gap: 12px;
+    line-height: 1.8;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.avatar {
+    width: 33px;
+    height: 33px;
+    min-width: 33px;
+    border-radius: 10px;
+    background: #a394ff25;
+    color: #c3b9ff;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.bubble {
+    white-space: pre-wrap;
+    padding-top: 3px;
+}
+
+.composer-wrap {
+    width: min(850px, 100%);
+    margin: auto;
+    padding: 15px 22px 25px;
+}
+
+.composer {
+    background: #151927;
+    border: 1px solid #ffffff20;
+    border-radius: 17px;
+    padding: 14px;
+}
+
+textarea {
+    width: 100%;
+    background: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 14px;
+    min-height: 30px;
+    max-height: 140px;
+    font-family: inherit;
+}
+
+textarea::placeholder {
+    color: #747c91;
+}
+
+.composer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.hint {
+    color: #777f95;
+    font-size: 10px;
+}
+
+.send {
+    background: linear-gradient(135deg, #a394ff, #65d6c4);
+    color: #090b12;
+    border: none;
+    border-radius: 10px;
+    width: 40px;
+    height: 38px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.disclaimer {
+    text-align: center;
+    color: #656d81;
+    font-size: 10px;
+    margin-top: 12px;
+}
+
+@media(max-width:650px) {
+    .sidebar {
+        display: none;
+    }
+
+    .suggestions {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 25px 17px;
+    }
+
+    .composer-wrap {
+        padding: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">W <span>AI</span> Bot</div>
+
+<button class="new-chat" onclick="newChat()">
+＋ New Chat
+</button>
+
+<div class="history-title">RECENT CHATS</div>
+
+<div class="history" id="history">
+Your conversations will appear here.
+</div>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<div class="status">● W AI · Demo Mode</div>
+<button class="clear" onclick="newChat()">Clear Chat</button>
+</header>
+
+<section class="content">
+
+<div class="welcome" id="welcome">
+
+<div class="badge">✦ YOUR SPACE. YOUR IDEAS.</div>
+
+<h1>
+Hey, welcome to<br>
+<span class="gradient">W AI Bot.</span>
+</h1>
+
+<p class="subtitle">
+A smarter space to think, create, learn and explore.
+Ask anything and let's make something useful.
+</p>
+
+<div class="suggestions">
+
+<button class="suggestion" onclick="quick('Explain artificial intelligence in simple words')">
+<b>✧ Learn Something</b>
+<small>Understand any topic</small>
+</button>
+
+<button class="suggestion" onclick="quick('Give me creative website ideas')">
+<b>⌘ Get Creative</b>
+<small>Explore new ideas</small>
+</button>
+
+<button class="suggestion" onclick="quick('Make me a study plan')">
+<b>▤ Plan My Day</b>
+<small>Organise your schedule</small>
+</button>
+
+<button class="suggestion" onclick="quick('Help me write HTML code')">
+<b>⌁ Coding Assistant</b>
+<small>Build websites and projects</small>
+</button>
+
+</div>
+</div>
+
+<div class="chat" id="chat"></div>
+
+</section>
+
+<div class="composer-wrap">
+
+<div class="composer">
+
+<textarea id="input" rows="1"
+placeholder="Message W AI Bot..."></textarea>
+
+<div class="composer-footer">
+
+<span class="hint">Enter to send · Shift + Enter for new line</span>
+
+<button class="send" onclick="sendMessage()">↑</button>
+
+</div>
+</div>
+
+<div class="disclaimer">
+W AI Bot can make mistakes. Check important information.
+</div>
+
+</div>
+
+</main>
+</div>
+
+<script>
+
+const input = document.getElementById("input");
+const chat = document.getElementById("chat");
+const welcome = document.getElementById("welcome");
+const historyBox = document.getElementById("history");
+
+let busy = false;
+
+function addMessage(role, text) {
+
+    const row = document.createElement("div");
+    row.className = "message";
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = role === "user" ? "YOU" : "W";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+
+    chat.appendChild(row);
+
+    row.scrollIntoView({
+        behavior: "smooth",
+        block: "end"
+    });
+}
+
+function demoReply(message) {
+
+    let q = message.toLowerCase();
+
+    if(q.includes("hello") || q.includes("hi")) {
+        return "Hey! Welcome to W AI Bot! ✨\n\nHow can I help you today?";
+    }
+
+    if(q.includes("html") || q.includes("code")) {
+        return "I can help you with HTML, CSS and JavaScript!\n\nW AI Bot is currently running in demo mode. Connect an AI backend to generate real intelligent answers.";
+    }
+
+    if(q.includes("study")) {
+        return "Here is a simple study plan:\n\n1. Choose your priority subjects.\n2. Study in focused sessions.\n3. Take short breaks.\n4. Revise what you learned.\n\nTell me your subjects for a customised plan!";
+    }
+
+    if(q.includes("ai")) {
+        return "Artificial Intelligence is technology that allows computers to perform tasks that normally require human intelligence, such as understanding language and answering questions.";
+    }
+
+    return "Thanks for using W AI Bot! ✦\n\nThis is currently a demo chatbot. A real AI model needs to be connected through a secure backend to answer any question intelligently.";
+}
+
+async function sendMessage() {
+
+    let text = input.value.trim();
+
+    if(!text || busy) return;
+
+    busy = true;
+
+    welcome.style.display = "none";
+    chat.style.display = "flex";
+
+    addMessage("user", text);
+
+    if(historyBox.textContent.includes("Your conversations")) {
+        historyBox.textContent = "";
+    }
+
+    const historyItem = document.createElement("p");
+    historyItem.textContent = text;
+    historyItem.style.marginBottom = "12px";
+    historyBox.prepend(historyItem);
+
+    input.value = "";
+
+    const typing = document.createElement("div");
+    typing.className = "message";
+    typing.innerHTML = '<div class="avatar">W</div><div class="bubble">Thinking...</div>';
+
+    chat.appendChild(typing);
+
+    await new Promise(resolve => setTimeout(resolve, 700));
+
+    typing.remove();
+
+    let answer = demoReply(text);
+
+    addMessage("assistant", answer);
+
+    busy = false;
+    input.focus();
+}
+
+function quick(text) {
+    input.value = text;
+    sendMessage();
+}
+
+function newChat() {
+
+    chat.innerHTML = "";
+    chat.style.display = "none";
+
+    welcome.style.display = "block";
+
+    input.value = "";
+    busy = false;
+
+    input.focus();
+}
+
+input.addEventListener("keydown", function(e) {
+
+    if(e.key === "Enter" && !e.shiftKey) {
+
+        e.preventDefault();
+        sendMessage();
+
+    }
+
+});
+
+input.addEventListener("input", function() {
+
+    this.style.height = "auto";
+
+    this.style.height =
+    Math.min(this.scrollHeight, 140) + "px";
+
+});
+
+</script>
+
+</body>
+</html>
